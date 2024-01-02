@@ -1,0 +1,13 @@
+{
+    "InstanceID": "cpds000002",
+    "AppID": "APP-113642",
+    "AppdID": "APP-113642",
+    "Environment": "dev",
+    "InstanceClass": "db.t3.micro",
+    "SizeStorage": "20",
+    "DbName": "pplicationdb",
+    "PgMajorVersion": "12",
+    "Collation": "en_US.UTF-8",
+    "Encoding": "UTF8"
+  }
+  

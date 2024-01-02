@@ -1,0 +1,15 @@
+allocated_storage = 25
+storage_type = "gp2"
+instance_class = "db.t3.micro"
+environment = "dvl"
+app_name = "cpds"
+instance_id = "cpds000002"
+app_id   = "APP-113642"
+appd_id = "APP-113642"
+family = "postgres15"
+lc_collate = "de_DE.utf8"
+db_name = "applicationdb"
+engine_version = 15
+aws_region = "eu-west-1"
+engine = "postgres"
+connection_limit = -1
