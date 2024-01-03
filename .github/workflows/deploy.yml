@@ -1,0 +1,33 @@
+name: Terraform Workflow
+
+on:
+  repository_dispatch:
+    types: [trigger-workflow]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: Development  # Vervang dit door de naam van je environment
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+        
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: 'eu-west-1'
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v1
+
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Plan
+        run: terraform plan -var="instance_id=${{ github.event.client_payload.instance_id }}" -var="app_id=${{ github.event.client_payload.app_id }}" -var="appd_id=${{ github.event.client_payload.appd_id }}" -var="environment=${{ github.event.client_payload.environment }}" -var="instance_class=${{ github.event.client_payload.instance_class }}" -var="size_storage=${{ github.event.client_payload.size_storage }}" -var="db_name=${{ github.event.client_payload.db_name }}" -var="pg_major_version=${{ github.event.client_payload.pg_major_version }}" -var="collation=${{ github.event.client_payload.collation }}" -var="encoding=${{ github.event.client_payload.encoding }}"
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -var="instance_id=${{ github.event.client_payload.instance_id }}" -var="app_id=${{ github.event.client_payload.app_id }}"
+        if: github.ref == 'refs/heads/main' && github.event_name == 'repository_dispatch'
